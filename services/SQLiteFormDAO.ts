@@ -5,19 +5,29 @@ import DAO from "./DAO";
 
 export default class SqliteFormDAO implements DAO<Form> {
 
-  private db = SQLite.openDatabaseSync("localdb.db");
+  private db!: SQLite.SQLiteDatabase;
 
+  constructor() {
+    this.init();
+  }
+
+  private async init() {
+    this.db = await SQLite.openDatabaseAsync("localdb.db");
+    // Agora db é SQLiteDatabase e possui execAsync, getAllAsync, etc.
+  }
+  
   async create(data: Form): Promise<boolean> {
     await this.db.execAsync(
-      `INSERT INTO forms (nome, idade, ativo) VALUES ('${data.nome}', ${data.idade}, ${data.ativo ? 1 : 0})`,
-    );
-
+      `INSERT INTO people (name, age) VALUES ('${data.nome}', ${data.idade})`,);
+    
     return true;
   }
 
+
+
   async read(id: number): Promise<Form | null> {
     const row = await this.db.getFirstAsync<Form>(
-      `SELECT * FROM forms WHERE id = ${id} LIMIT 1`
+      `SELECT * FROM people WHERE id = ${id} LIMIT 1`
     );
 
     if (!row) { 
@@ -35,8 +45,8 @@ export default class SqliteFormDAO implements DAO<Form> {
 
   async update(id: number, data: Form): Promise<boolean> {
     await this.db.execAsync(
-      `UPDATE forms 
-      SET nome='${data.nome}', idade=${data.idade}, ativo=${data.ativo ? 1 : 0}
+      `UPDATE people 
+      SET name='${data.nome}', age=${data.idade}
       WHERE id=${id}`
     );
 
@@ -45,15 +55,15 @@ export default class SqliteFormDAO implements DAO<Form> {
 
   async delete(id: number): Promise<boolean> {
     await this.db.execAsync(
-      `DELETE FROM forms WHERE id = ${id}`
+      `DELETE FROM people WHERE id = ${id}`
     );
 
     return true;
   }
 
-  async readAll(){
-    result = this.db.getAllSync(`SELECT * FROM people`);
-    return result
+  async readAll(){ 
+    console.log("teste")
+    return await this.db.getAllAsync(`SELECT * FROM people`);
   };
   
 

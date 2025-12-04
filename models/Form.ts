@@ -1,5 +1,5 @@
 export default interface Form {
-  id?: number;      // opcional para criação, presente na leitura
+  id?: number;   
   nome: string;
   idade: number;
   ativo: Boolean;
