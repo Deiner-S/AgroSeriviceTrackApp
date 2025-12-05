@@ -7,13 +7,23 @@ export default class SqliteFormDAO implements DAO<Form> {
 
   private db!: SQLite.SQLiteDatabase;
 
-  constructor() {
-    this.init();
-  }
+  constructor() {}
+
+  static async build() {
+        const instance = new SqliteFormDAO();
+        await instance.init();
+        return instance;
+    }
 
   private async init() {
-    this.db = await SQLite.openDatabaseAsync("localdb.db");
-    // Agora db é SQLiteDatabase e possui execAsync, getAllAsync, etc.
+    this.db = await SQLite.openDatabaseAsync("app.db");
+    await this.db.execAsync(`
+      CREATE TABLE IF NOT EXISTS people (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        age INTEGER NOT NULL
+      );
+    `);
   }
   
   async create(data: Form): Promise<boolean> {
@@ -37,8 +47,7 @@ export default class SqliteFormDAO implements DAO<Form> {
     return {
       id: row.id,
       nome: row.nome,
-      idade: row.idade,
-      ativo: (row as any).ativo === 1
+      idade: row.idade
     };
   }
 
@@ -63,7 +72,9 @@ export default class SqliteFormDAO implements DAO<Form> {
 
   async readAll(){ 
     console.log("teste")
-    return await this.db.getAllAsync(`SELECT * FROM people`);
+    let result = await this.db.getAllAsync(`SELECT * FROM people`);
+    console.log(result)
+    return result as Form[]
   };
   
 
