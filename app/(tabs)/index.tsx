@@ -3,16 +3,6 @@ import SqliteFormDAO from "@/services/SQLiteFormDAO";
 import { useEffect, useState } from "react";
 import { Button, FlatList, Pressable, Text, TextInput, View } from "react-native";
 
-import * as FileSystem from "expo-file-system/legacy";
-
-export async function listarBancos() {
-  const sqliteDir = FileSystem.documentDirectory + "SQLite/";
-
-  const info = await FileSystem.getInfoAsync(sqliteDir);
-  if (!info.exists) return [];
-
-  console.log(await FileSystem.readDirectoryAsync(sqliteDir));
-}
 
 
 
@@ -23,7 +13,6 @@ export default function Index() {
   const [items, setItems] = useState<Form[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [formDAO, setFormDAO] = useState<SqliteFormDAO | null>(null);
-
   useEffect(() => {
     async function init() {
       const dao = await SqliteFormDAO.build();
@@ -31,8 +20,7 @@ export default function Index() {
 
       const rows = await dao.readAll();
       setItems(rows);
-    }
-    listarBancos()
+    }    
     init();
   }, []);
 
@@ -69,6 +57,45 @@ export default function Index() {
     setItems(rows);
   };
 
+  const sincData = async () => {
+    if (!formDAO) return;
+    const rows = await formDAO.readAll();
+    for (const row of rows) {
+      if(row.sinc === 0){
+        console.log("Registros:", JSON.stringify(row, null, 2));
+        /*
+
+        try {
+          const { sinc,id, ...payload } = row;
+          const response = await fetch("http://10.0.2.2:8000/api/people/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            
+            body: JSON.stringify(payload),
+          });
+          console.log("response")
+          if (!response.ok) {
+            console.error("Erro ao sincronizar:", row.id);
+            continue; 
+          }*/
+
+          row.sinc = 1
+          await formDAO.update(Number(row.id), row);
+          console.log(`Registro ${row.id} sincronizado com sucesso!`);
+          const rows = await formDAO.readAll();
+          setItems(rows);
+          /*
+        }catch (error) {
+          console.error("Falha na requisição:", error);
+        }*/
+
+      }
+
+    };
+  }
+
   return (
     <View style={{ flex: 1, padding: 24, gap: 12 }}>
       <Text style={{ fontSize: 22, fontWeight: "bold" }}>
@@ -93,7 +120,7 @@ export default function Index() {
       <Button title="Salvar" onPress={saveData} />
       <Button title="Atualizar" onPress={updateData} />
       <Button title="Deletar" onPress={deleteData} />
-
+      <Button title="Sincronizar" onPress={sincData} />
       <Text style={{ marginTop: 20, fontSize: 18 }}>
         Registros salvos:
       </Text>
