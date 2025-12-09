@@ -3,6 +3,18 @@ import SqliteFormDAO from "@/services/SQLiteFormDAO";
 import { useEffect, useState } from "react";
 import { Button, FlatList, Pressable, Text, TextInput, View } from "react-native";
 
+import * as FileSystem from "expo-file-system/legacy";
+
+export async function listarBancos() {
+  const sqliteDir = FileSystem.documentDirectory + "SQLite/";
+
+  const info = await FileSystem.getInfoAsync(sqliteDir);
+  if (!info.exists) return [];
+
+  console.log(await FileSystem.readDirectoryAsync(sqliteDir));
+}
+
+
 
 export default function Index() {
 
@@ -20,6 +32,7 @@ export default function Index() {
       const rows = await dao.readAll();
       setItems(rows);
     }
+    listarBancos()
     init();
   }, []);
 

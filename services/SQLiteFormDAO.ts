@@ -2,34 +2,33 @@
 import * as SQLite from "expo-sqlite";
 import Form from "../models/Form";
 import DAO from "./DAO";
-
 export default class SqliteFormDAO implements DAO<Form> {
-
+  
   private db!: SQLite.SQLiteDatabase;
-
+  
   constructor() {}
-
+  
   static async build() {
-        const instance = new SqliteFormDAO();
-        await instance.init();
-        return instance;
-    }
-
+    const instance = new SqliteFormDAO();
+    await instance.init();
+    return instance;
+  }
+  
   private async init() {
-    this.db = await SQLite.openDatabaseAsync("app.db");
+    this.db = await SQLite.openDatabaseAsync("app2.db");
     await this.db.execAsync(`
       CREATE TABLE IF NOT EXISTS people (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         age INTEGER NOT NULL,
-        sinc INTEGER NOT NULL,
+        sinc INTEGER NOT NULL
       );
     `);
   }
   
   async create(data: Form): Promise<boolean> {
     await this.db.execAsync(
-      `INSERT INTO people (name, age, sinc) VALUES ('${data.name}', ${data.age}', ${data.sinc})`,);
+      `INSERT INTO people (name, age, sinc) VALUES ('${data.name}', ${data.age}, ${data.sinc})`,);
     
     return true;
   }
@@ -57,7 +56,7 @@ export default class SqliteFormDAO implements DAO<Form> {
   async update(id: number, data: Form): Promise<boolean> {
     await this.db.execAsync(
       `UPDATE people 
-      SET name='${data.name}', age=${data.age}, sinc=${data.age}
+      SET name='${data.name}', age=${data.age}, sinc=${data.sinc}
       WHERE id=${id}`
     );
 
