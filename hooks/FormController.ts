@@ -1,5 +1,5 @@
 import Form from "@/models/Form";
-import SqliteFormDAO from "@/services/SQLiteFormDAO";
+import FormService from "@/services/FormService";
 import { useEffect, useState } from "react";
 
 export default function formController() {
@@ -7,12 +7,12 @@ export default function formController() {
   const [age, setAge] = useState("");
   const [items, setItems] = useState<Form[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [dao, setFormDAO] = useState<SqliteFormDAO | null>(null);
+  const [dao, setFormDAO] = useState<FormService | null>(null);
 
 
   useEffect(() => {
   async function init() {
-      const dao = await SqliteFormDAO.build();
+      const dao = await FormService.build();
       setFormDAO(dao);
 
       const rows = await dao.readAll();

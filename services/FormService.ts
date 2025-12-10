@@ -1,15 +1,15 @@
 
+import DAO from "@/DAO/DAO";
 import * as SQLite from "expo-sqlite";
 import Form from "../models/Form";
-import DAO from "./DAO";
-export default class SqliteFormDAO implements DAO<Form> {
+export default class FormService implements DAO<Form> {
   
-  private db!: SQLite.SQLiteDatabase;
+  db!: SQLite.SQLiteDatabase;
   
   constructor() {}
   
   static async build() {
-    const instance = new SqliteFormDAO();
+    const instance = new FormService();
     await instance.init();
     return instance;
   }
