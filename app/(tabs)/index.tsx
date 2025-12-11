@@ -1,72 +1,52 @@
-import useFormController from "@/hooks/FormController";
-import useFormSyncController from "@/hooks/formSyncController";
-import { Button, FlatList, Pressable, Text, TextInput, View } from "react-native";
-;
-
-
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
-
-  const form = useFormController()
-  const sync = useFormSyncController(form.dao)
-  
+  // variável temporária só para teste
+  const status = "Pendente";
 
   return (
-    <View style={{ flex: 1, padding: 24, gap: 12 }}>
-      <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-        Cadastro Local
-      </Text>
-
-      <TextInput
-        style={{ borderWidth: 1, padding: 10, borderRadius: 8 }}
-        placeholder="Nome"
-        value={form.name}
-        onChangeText={form.setName}
-      />
-
-      <TextInput
-        style={{ borderWidth: 1, padding: 10, borderRadius: 8 }}
-        placeholder="Idade"
-        value={form.age}
-        onChangeText={form.setAge}
-        keyboardType="numeric"
-      />
-
-      <Button title="Salvar" onPress={form.saveData} />
-      <Button title="Atualizar" onPress={form.updateData} />
-      <Button title="Deletar" onPress={form.deleteData} />
-      <Button title="Sincronizar" onPress={sync.sincData} />
-      <Text style={{ marginTop: 20, fontSize: 18 }}>
-        Registros salvos:
-      </Text>
-
-      <FlatList
-        data={form.items}
-        keyExtractor={(item) => item.id!.toString()}
-        renderItem={({ item }) => {
-          const isSelected = item.id === form.selectedId;
-
-          return (
-            <Pressable onPress={() => form.setSelectedId(item.id!)}>
-              <View style={{
-                padding: 12,
-                marginVertical: 6,
-                borderRadius: 8,
-                backgroundColor: isSelected ? "#cce5ff" : "#fff",
-                borderWidth: isSelected ? 2 : 1,
-                borderColor: isSelected ? "#3399ff" : "#ccc",
-              }}>
-                <Text style={{
-                  fontWeight: isSelected ? "bold" : "normal",
-                  color: isSelected ? "#0056b3" : "#333",
-                }}>
-                  {item.name} — {item.age} anos - {item.sinc}
-                </Text>
-              </View>
-            </Pressable>
-          );
-        }}
-      />
-    </View>
+    <Pressable
+      onPress={() => console.log("Card clicado!")}
+      style={({ pressed }) => [           // 🔹 style agora é uma função que recebe o estado "pressed"
+        styles.Pressable,
+        pressed && styles.PressablePressed, // 🔹 aplica estilo enquanto o card está pressionado
+        pressed && { transform: [{ scale: 0.98 }] }, // 🔹 efeito de “afundar” levemente ao clicar
+      ]}
+    >
+      <View style={styles.row}>
+        <Text style={styles.text}>OS: 72356</Text>
+        <Text style={[styles.text, { color: status === "Pendente" ? "red" : "green" }]}>
+          Status: {status}
+        </Text>
+      </View>
+    </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  Pressable: {
+    position: "absolute",
+    bottom: 40,
+    right: 20,
+    left: 20,
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 16,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+  },
+  PressablePressed: {                    // 🔹 novo estilo aplicado enquanto o card está pressionado
+    opacity: 0.6,                        // 🔹 reduz a opacidade para dar feedback visual
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 16,
+  },
+});

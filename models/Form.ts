@@ -1,5 +1,5 @@
 export default interface Form {
-  id?: number;   
+  id: number;   
   name: string;
   age: number;
   sinc: number;

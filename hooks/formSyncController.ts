@@ -1,7 +1,7 @@
 import Form from "@/models/Form";
-import SqliteFormDAO from "@/services/SQLiteFormDAO";
+import FormService from "@/services/FormService";
 
-export default function formSyncController(formDAO:SqliteFormDAO | null){
+export default function formSyncController(formDAO:FormService | null){
 
     const sincData = async () => {  
         console.log("sincData")  

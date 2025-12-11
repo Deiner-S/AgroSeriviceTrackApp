@@ -15,7 +15,20 @@ export default function RootLayout() {
         },
       }}
     >
-      
+    <Tabs.Screen
+      name="form"
+      options={{
+        title: 'Form',
+        tabBarIcon: ({ color, focused }) => (<Ionicons name={focused ? 'settings-sharp' : 'settings-outline'} color={color} size={24} />),
+      }}/>
+
+    <Tabs.Screen
+      name="teste"
+      options={{
+        title: 'Teste',
+        tabBarIcon: ({ color, focused }) => (<Ionicons name={focused ? 'search-sharp' : 'search-outline'} color={color} size={24} />),
+      }}/>
+
     <Tabs.Screen
       name="index"
       options={{
