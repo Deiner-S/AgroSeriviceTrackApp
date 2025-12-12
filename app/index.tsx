@@ -20,6 +20,7 @@ export default function Index() {
     <SafeAreaView style={{ flex: 1 }}edges={['left', 'right', 'bottom']}>
       <View style={styles.container}>
           <Text>Texto</Text>
+
           <Pressable
           onPress={() => navigation.navigate('Details', { id: 42 })}
           style={({ pressed }) => [           // 🔹 style agora é uma função que recebe o estado "pressed"
@@ -35,6 +36,7 @@ export default function Index() {
             </Text>
           </View>
         </Pressable>
+        
       </View>
     </SafeAreaView>
   );

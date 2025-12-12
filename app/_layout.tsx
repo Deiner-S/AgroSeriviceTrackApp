@@ -1,7 +1,7 @@
 // navigation/StackNavigator.tsx
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import Proxima from './coleta';
+import Proxima from './checklist';
 import Index from './index';
 
 const Stack = createNativeStackNavigator();

@@ -1,0 +1,131 @@
+import React from "react";
+import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+
+interface CabecalhoOSProps {
+  client: string;
+  operation_code: string;
+  symptoms: string;
+  chassi: string;
+  setChassi: (value: string) => void;
+  orimento: string;
+  setOrimento: (value: string) => void;
+  modelo: string;
+  setModelo: (value: string) => void;
+  date: Date;
+  open: boolean;
+  setOpen: (value: boolean) => void;
+  onChange: (_event: any, selectedDate?: Date) => void;
+}
+
+export default function CabecalhoOS({
+  client,
+  operation_code,
+  symptoms,
+  chassi,
+  setChassi,
+  orimento,
+  setOrimento,
+  modelo,
+  setModelo,
+  date,
+  open,
+  setOpen,
+  onChange,
+}: CabecalhoOSProps) {
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={styles.content}>
+        <Text style={styles.label}>Cliente:</Text>
+        <Text style={styles.text}>{client}</Text>
+
+        <Text style={styles.label}>Ordem de Serviço:</Text>
+        <Text style={styles.text}>{operation_code}</Text>
+
+        <Text style={styles.label}>Problema relatado:</Text>
+        <Text style={styles.text}>{symptoms}</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Chassi"
+          placeholderTextColor="#8e8e93"
+          value={chassi}
+          onChangeText={setChassi}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Orimento"
+          placeholderTextColor="#8e8e93"
+          value={orimento}
+          onChangeText={setOrimento}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Modelo"
+          placeholderTextColor="#8e8e93"
+          value={modelo}
+          onChangeText={setModelo}
+        />
+
+        <Pressable
+          onPress={() => setOpen(true)}
+          style={styles.dateButton}
+        >
+          <Text style={{ color: "#fff" }}>
+            {date.toLocaleDateString("pt-BR")}
+          </Text>
+        </Pressable>
+
+        {open && (
+          <DateTimePicker
+            value={date}
+            mode="date"
+            display="default"
+            onChange={onChange}
+          />
+        )}
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  content: {
+    gap: 16,
+    padding: 6,
+  },
+  label: {
+    color: "#fff",
+    marginBottom: 6,
+    fontSize: 14,
+  },
+  text: {
+    color: "#ccc",
+    backgroundColor: "#333",
+    padding: 10,
+    borderRadius: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#3a3f45",
+    padding: 12,
+    borderRadius: 10,
+    backgroundColor: "#2e3238",
+    color: "#fff",
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  dateButton: {
+    backgroundColor: "#2e3238",
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#3a3f45",
+  },
+});
