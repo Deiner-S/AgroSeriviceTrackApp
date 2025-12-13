@@ -1,5 +1,5 @@
 export default interface Check{
-    id?:number
+    id:number
     name:string;
     status:number;
 }
