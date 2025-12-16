@@ -1,7 +1,7 @@
 import * as SQLite from "expo-sqlite";
 
 
-export default function createTables(db:SQLite.SQLiteDatabase){
+export default async function tableInit(db: SQLite.SQLiteDatabase){
     db.execAsync(`
         CREATE TABLE IF NOT EXISTS check (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

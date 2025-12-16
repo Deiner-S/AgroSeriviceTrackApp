@@ -1,4 +1,4 @@
-export default interface ServiceOrder{
+export default interface Order{
     operation_code:string;
     symptoms:string;
     client:number;

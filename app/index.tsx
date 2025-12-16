@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Tipagem das rotas do Stack
@@ -17,27 +17,27 @@ export default function Index() {
   const status = "Pendente";
 
   return (
+    
     <SafeAreaView style={{ flex: 1 }}edges={['left', 'right', 'bottom']}>
-      <View style={styles.container}>
-          <Text>Texto</Text>
-
-          <Pressable
-          onPress={() => navigation.navigate('Details', { id: 42 })}
-          style={({ pressed }) => [           // 🔹 style agora é uma função que recebe o estado "pressed"
-            styles.Pressable,
-            pressed && styles.PressablePressed, // 🔹 aplica estilo enquanto o card está pressionado
-            pressed && { transform: [{ scale: 0.97 }] }, // 🔹 efeito de “afundar” levemente ao clicar
-          ]}
-        >
-          <View style={styles.row}>
-            <Text style={styles.text}>OS: 72356</Text>
-            <Text style={[styles.text, { color: status === "Pendente" ? "red" : "green" }]}>
-              Status: {status}
-            </Text>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+          <View>              
+              <Pressable
+                onPress={() => navigation.navigate('Details', { id: 42 })}
+                style={({ pressed }) => [           // 🔹 style agora é uma função que recebe o estado "pressed"
+                  styles.Pressable,
+                  pressed && styles.PressablePressed, // 🔹 aplica estilo enquanto o card está pressionado
+                  pressed && { transform: [{ scale: 0.97 }] }, // 🔹 efeito de “afundar” levemente ao clicar
+                ]}
+              >
+                <View style={styles.row}>
+                  <Text style={styles.text}>OS: 72356</Text>
+                  <Text style={[styles.text, { color: status === "Pendente" ? "red" : "green" }]}>
+                    Status: {status}
+                  </Text>
+                </View>
+            </Pressable>            
           </View>
-        </Pressable>
-        
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

@@ -19,6 +19,7 @@ export default function ChecklistItem({
   photoUri,
 }: ChecklistItemProps) {
   return (
+    
     <View style={styles.checklist_container}>
       <Text style={styles.checklistText}>{checkList}</Text>
 
