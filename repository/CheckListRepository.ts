@@ -7,7 +7,7 @@ export default class CheckListRepository implements Repository<CheckList,number>
 
     db!: SQLite.SQLiteDatabase;
 
-    static async build() {
+    static async build() {        
         const instance = new CheckListRepository();
         instance.db = await SQLite.openDatabaseAsync("app.db");
         await tableInit(instance.db);

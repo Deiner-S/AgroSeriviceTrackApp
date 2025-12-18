@@ -6,7 +6,7 @@ import { Button, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Proxima() {
-    
+  
   const checkList = useCheckListController()
 
   return (

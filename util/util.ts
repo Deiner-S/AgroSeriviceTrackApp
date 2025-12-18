@@ -12,7 +12,7 @@ export async function listarBancos() {
 
 
 //deletar arquivos da basta onde contem banco de dados
-async function deleteFolderRecursive(path: string) {
+export async function deleteFolderRecursive(path: string) {
   // Garante que tem uma barra no final
   if (!path.endsWith("/")) {
     path = path + "/";

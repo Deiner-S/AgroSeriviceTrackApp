@@ -2,6 +2,7 @@ import CheckListItem from '@/models/CheckListItem';
 import CheckReposytory from '@/repository/CheckListItemRepository';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from "react";
+
 interface ChecklistStateItem {
   id: number;
   selected: string | null;

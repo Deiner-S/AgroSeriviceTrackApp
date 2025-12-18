@@ -2,7 +2,11 @@ import * as SQLite from "expo-sqlite";
 
 
 export default async function tableInit(db: SQLite.SQLiteDatabase){
-    db.execAsync(`        
+    db.execAsync(`/*
+        DROP TABLE IF EXISTS checklist_item;
+        DROP TABLE IF EXISTS work_order;
+        DROP TABLE IF EXISTS checklist;
+        */
         CREATE TABLE IF NOT EXISTS checklist_item (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
@@ -12,14 +16,14 @@ export default async function tableInit(db: SQLite.SQLiteDatabase){
         
         CREATE TABLE IF NOT EXISTS work_order (
             operation_code TEXT PRIMARY KEY NOT NULL,
-            client INTEGER NOT NULL,
-            symptoms TEXT,
+            client TEXT NOT NULL,
+            symptoms TEXT NOT NULL,
             chassi TEXT UNIQUE,
             orimento TEXT,
             model TEXT,
             date_in TEXT,
             date_out TEXT,
-            status TEXT,
+            status TEXT NOT NULL,
             service TEXT,
             insert_date TEXT DEFAULT CURRENT_TIMESTAMP
         );
@@ -37,6 +41,13 @@ export default async function tableInit(db: SQLite.SQLiteDatabase){
         );
 
         /*
+        INSERT INTO work_order (operation_code, client, symptoms, status) VALUES
+        ('OS-001', 'João da Silva', 'Motor não liga', 'Pendente'),
+        ('OS-002', 'Maria Oliveira', 'Barulho estranho ao frear', 'Pendente'),
+        ('OS-003', 'Carlos Santos', 'Luz de injeção acesa', 'Pendente'),
+        ('OS-004', 'Ana Pereira', 'Vibração excessiva em marcha lenta', 'Pendente'),
+        ('OS-005', 'Pedro Almeida', 'Veículo perde força em subidas', 'Pendente');
+
         INSERT INTO checklist_item (id, name, status) VALUES 
         (1, 'LIMPEZA', 1),
         (2, 'PNEU F/D', 1),
@@ -78,8 +89,8 @@ export default async function tableInit(db: SQLite.SQLiteDatabase){
         (38, 'SETA F/E', 1),
         (39, 'SETA T/D', 1),
         (40, 'SETA T/E', 1),
-        (41, 'PISCA ALERTA', 1);
-        */
+        (41, 'PISCA ALERTA', 1);*/
+        
             `
         );
 }

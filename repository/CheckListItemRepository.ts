@@ -2,7 +2,6 @@ import CheckListItem from "@/models/CheckListItem";
 import * as SQLite from "expo-sqlite";
 import Repository from "./repository";
 import tableInit from "./tableInit";
-
 export default class CheckListItemRepository implements Repository<CheckListItem, number> {
 
   db!: SQLite.SQLiteDatabase;
