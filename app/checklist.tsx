@@ -5,17 +5,17 @@ import React from "react";
 import { Button, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Proxima() {
+export default function CheckList() {
   
   const checkList = useCheckListController()
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['left', 'right', 'bottom']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }} edges={['left', 'right', 'bottom']}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
         <HeaderOS
-            client={checkList.client}
-            operation_code={checkList.operation_code}
-            symptoms={checkList.symptoms}
+            client={checkList.workOrder.client}
+            operation_code={checkList.workOrder.operation_code}
+            symptoms={checkList.workOrder.symptoms}
             chassi={checkList.chassi}
             setChassi={checkList.setChassi}
             orimento={checkList.orimento}

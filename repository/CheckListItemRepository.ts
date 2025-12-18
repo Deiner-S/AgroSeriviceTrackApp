@@ -1,7 +1,7 @@
 import CheckListItem from "@/models/CheckListItem";
 import * as SQLite from "expo-sqlite";
+import Database from "./dbInit";
 import Repository from "./repository";
-import tableInit from "./tableInit";
 export default class CheckListItemRepository implements Repository<CheckListItem, number> {
 
   db!: SQLite.SQLiteDatabase;
@@ -10,8 +10,7 @@ export default class CheckListItemRepository implements Repository<CheckListItem
 
   static async build() {
     const instance = new CheckListItemRepository();
-    instance.db = await SQLite.openDatabaseAsync("app.db");
-    await tableInit(instance.db);
+    instance.db = await Database.getInstance();
     return instance;
   }
 

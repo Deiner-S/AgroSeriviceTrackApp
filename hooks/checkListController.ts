@@ -1,5 +1,7 @@
 import CheckListItem from '@/models/CheckListItem';
+import WorkOrder from '@/models/WorkOrder';
 import CheckReposytory from '@/repository/CheckListItemRepository';
+import { useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from "react";
 
@@ -16,9 +18,8 @@ export default function useCheckListController(){
     const [chassi, setChassi] = useState("");
     const [orimento, setOrimento] = useState("");
     const [modelo, setModelo] = useState("");
-    const [operation_code, setOperation_code] = useState("");
-    const [symptoms,setSymptoms] = useState("");
-    const [client,setClient] = useState("");
+    const route = useRoute();
+    const { workOrder } = route.params as { workOrder: WorkOrder };
     
     const [checklistItems, setChecklistItems] = useState<CheckListItem[]>([]);
     const [checklistState, setChecklistState] = useState<ChecklistStateItem[]>([]);
@@ -90,8 +91,8 @@ export default function useCheckListController(){
     date, setDate,open, setOpen,
     chassi, setChassi,orimento, setOrimento,
     modelo, setModelo, checklistState, setChecklistState,
-    setItemSelected, setItemPhotoUri,operation_code, 
-    symptoms,client,saveData,onChange,takePhoto, checklistItems
+    setItemSelected, setItemPhotoUri, workOrder,
+    saveData,onChange,takePhoto, checklistItems
   }
 
 

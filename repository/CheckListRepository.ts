@@ -1,18 +1,17 @@
 import CheckList from "@/models/CheckList";
 import * as SQLite from "expo-sqlite";
 import Repository from "./repository";
-import tableInit from "./tableInit";
+import Database from "./dbInit";
 
 export default class CheckListRepository implements Repository<CheckList,number>{
 
     db!: SQLite.SQLiteDatabase;
 
-    static async build() {        
+    static async build() {
         const instance = new CheckListRepository();
-        instance.db = await SQLite.openDatabaseAsync("app.db");
-        await tableInit(instance.db);
+        instance.db = await Database.getInstance();
         return instance;
-    }
+      }
     
     async save(entity: CheckList): Promise<boolean> {
         throw new Error("Method not implemented.");

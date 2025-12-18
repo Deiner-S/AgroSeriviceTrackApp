@@ -31,9 +31,9 @@ export default function ChecklistItem({
           style={styles.picker}
         >
           <Picker.Item label="Conservação ?" value={null} />
-          <Picker.Item label="Opção A" value="a" />
-          <Picker.Item label="Opção B" value="b" />
-          <Picker.Item label="Opção C" value="c" />
+          <Picker.Item label="Bom" value="1" />
+          <Picker.Item label="Médio" value="2" />
+          <Picker.Item label="Ruim" value="3" />
         </Picker>
 
         <Pressable onPress={handleTakePhoto} style={styles.button}>

@@ -1,7 +1,7 @@
 import WorkOrder from "@/models/WorkOrder";
 import * as SQLite from "expo-sqlite";
+import Database from "./dbInit";
 import Repository from "./repository";
-import tableInit from "./tableInit";
 
 export default class WorkOrderRepository implements Repository<WorkOrder, number> {
 
@@ -11,8 +11,7 @@ export default class WorkOrderRepository implements Repository<WorkOrder, number
 
   static async build() {
     const instance = new WorkOrderRepository();
-    instance.db = await SQLite.openDatabaseAsync("app.db");
-    await tableInit(instance.db);
+    instance.db = await Database.getInstance();
     return instance;
   }
 

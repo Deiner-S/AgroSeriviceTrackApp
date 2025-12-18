@@ -1,12 +1,28 @@
-import * as SQLite from "expo-sqlite";
+import * as any from "expo-sqlite";
+
+//Singleton: garante que só exista uma instância do banco de dados
+export default class Database {
+  private static instance: any | null = null;
+
+  private constructor() {} // impede instância direta
+
+  static async getInstance(): Promise<any> {
+    if (!Database.instance) {
+      const db = await any.openDatabaseAsync("app.db");
+      await tableInit(db);
+      Database.instance = db;
+    }
+    return Database.instance;
+  }
+}
 
 
-export default async function tableInit(db: SQLite.SQLiteDatabase){
-    db.execAsync(`/*
+async function tableInit(db: any.SQLiteDatabase){
+    db.execAsync(`
         DROP TABLE IF EXISTS checklist_item;
         DROP TABLE IF EXISTS work_order;
         DROP TABLE IF EXISTS checklist;
-        */
+        
         CREATE TABLE IF NOT EXISTS checklist_item (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
@@ -40,7 +56,7 @@ export default async function tableInit(db: SQLite.SQLiteDatabase){
             FOREIGN KEY (checklist_item_fk) REFERENCES checklist_item(id)
         );
 
-        /*
+        
         INSERT INTO work_order (operation_code, client, symptoms, status) VALUES
         ('OS-001', 'João da Silva', 'Motor não liga', 'Pendente'),
         ('OS-002', 'Maria Oliveira', 'Barulho estranho ao frear', 'Pendente'),
@@ -89,8 +105,10 @@ export default async function tableInit(db: SQLite.SQLiteDatabase){
         (38, 'SETA F/E', 1),
         (39, 'SETA T/D', 1),
         (40, 'SETA T/E', 1),
-        (41, 'PISCA ALERTA', 1);*/
+        (41, 'PISCA ALERTA', 1);
         
             `
         );
 }
+
+
