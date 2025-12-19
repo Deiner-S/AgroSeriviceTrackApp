@@ -1,5 +1,5 @@
 export default interface WorkOrder {
-  operation_code: string;
+  operation_code: number;
   client: string;
   symptoms: string;
   chassi?: string;

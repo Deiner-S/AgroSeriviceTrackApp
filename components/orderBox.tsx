@@ -19,7 +19,7 @@ export default function OsCard({ item }: OsCardProps) {
         ]}>
       
         <View style={styles.row}>         
-          <Text style={[styles.text, styles.operationCode]}>{item.operation_code}</Text>      
+          <Text style={[styles.text, styles.operationCode]}>OS - {item.operation_code}</Text>      
           <Text
             style={[
               styles.status,

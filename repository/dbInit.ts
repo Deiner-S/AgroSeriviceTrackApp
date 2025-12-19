@@ -31,7 +31,7 @@ async function tableInit(db: any.SQLiteDatabase){
 
         
         CREATE TABLE IF NOT EXISTS work_order (
-            operation_code TEXT PRIMARY KEY NOT NULL,
+            operation_code INTEGER PRIMARY KEY NOT NULL,
             client TEXT NOT NULL,
             symptoms TEXT NOT NULL,
             chassi TEXT UNIQUE,
@@ -58,11 +58,11 @@ async function tableInit(db: any.SQLiteDatabase){
 
         
         INSERT INTO work_order (operation_code, client, symptoms, status) VALUES
-        ('OS-001', 'João da Silva', 'Motor não liga', 'Pendente'),
-        ('OS-002', 'Maria Oliveira', 'Barulho estranho ao frear', 'Pendente'),
-        ('OS-003', 'Carlos Santos', 'Luz de injeção acesa', 'Pendente'),
-        ('OS-004', 'Ana Pereira', 'Vibração excessiva em marcha lenta', 'Pendente'),
-        ('OS-005', 'Pedro Almeida', 'Veículo perde força em subidas', 'Pendente');
+        ('1001', 'João da Silva', 'Motor não liga', 'Pendente'),
+        ('1002', 'Maria Oliveira', 'Barulho estranho ao frear', 'Pendente'),
+        ('1003', 'Carlos Santos', 'Luz de injeção acesa', 'Pendente'),
+        ('1004', 'Ana Pereira', 'Vibração excessiva em marcha lenta', 'Pendente'),
+        ('1005', 'Pedro Almeida', 'Veículo perde força em subidas', 'Pendente');
 
         INSERT INTO checklist_item (id, name, status) VALUES 
         (1, 'LIMPEZA', 1),

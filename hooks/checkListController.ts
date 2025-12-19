@@ -26,6 +26,7 @@ export default function useCheckListController(){
     
     const [checklistItems, setChecklistItems] = useState<CheckListItem[]>([]);
     const [checklistState, setChecklistState] = useState<ChecklistStateItem[]>([]);
+    
     const [checkListRepositor, setCheckListRepository] = useState<CheckListRepository>()
     const [workOrderRepository, setWorkOrderRepository] = useState<WorkOrderRepository>()
     useEffect(()=>{
@@ -97,16 +98,28 @@ export default function useCheckListController(){
           operation_code:workOrder.operation_code,
           client:workOrder.client,
           symptoms:workOrder.symptoms,
-          chassi:,
-          orimento:,
-          model:,
-          date_in:,
-          date_out:,
+          chassi:chassi,
+          orimento:orimento,
+          model:modelo,
+          date_in:dateFilled.toISOString(),
+          date_out: undefined,
           status:"Andamento",
-          service:,
-          insert_date:,
+          service: undefined,
 
       })
+
+      for (const checkList of checklistState){
+        if(checkList.selected && checkList.photoUri){
+
+          checkListRepositor?.save({
+            checklist_fk:checkList.id,
+            serviceOrder_fk: workOrder.operation_code,
+            status: checkList.selected,
+            img: checkList.photoUri,
+            
+          })
+        }
+      }
       console.log('Salvo')
     }
 
