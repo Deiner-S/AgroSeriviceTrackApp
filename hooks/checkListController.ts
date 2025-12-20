@@ -14,7 +14,6 @@ interface ChecklistStateItem {
 }
 
 export default function useCheckListController(){
-
     const [dateFilled, setDateFilled] = useState(new Date());
     const [openCalendar, setOpenCalendar] = useState(false);
     const [chassi, setChassi] = useState("");
@@ -91,8 +90,14 @@ export default function useCheckListController(){
       );
     }
 
+    async function readImageAsUint8Array(uri: string): Promise<Uint8Array> {
+      const response = await fetch(uri)
+      const blob = await response.blob()
+      const buffer = await blob.arrayBuffer()
+      return new Uint8Array(buffer)
+    }
 
-    const saveData = () => {
+    const saveData = async () => {
 
       workOrderRepository?.update({
           operation_code:workOrder.operation_code,
@@ -110,13 +115,11 @@ export default function useCheckListController(){
 
       for (const checkList of checklistState){
         if(checkList.selected && checkList.photoUri){
-
           checkListRepositor?.save({
             checklist_fk:checkList.id,
             serviceOrder_fk: workOrder.operation_code,
             status: checkList.selected,
-            img: checkList.photoUri,
-            
+            img: await readImageAsUint8Array(checkList.photoUri),            
           })
         }
       }

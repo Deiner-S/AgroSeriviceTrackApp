@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 interface CabecalhoOSProps {
   client: string;
-  operation_code: string;
+  operation_code: number;
   symptoms: string;
   chassi: string;
   setChassi: (value: string) => void;

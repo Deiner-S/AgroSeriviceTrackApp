@@ -2,7 +2,7 @@ import ChecklistItem from '@/components/checkListBox';
 import HeaderOS from '@/components/headerOS';
 import useCheckListController from '@/hooks/checkListController';
 import React from "react";
-import { Button, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CheckList() {
@@ -22,8 +22,8 @@ export default function CheckList() {
             setOrimento={checkList.setOrimento}
             modelo={checkList.modelo}
             setModelo={checkList.setModelo}
-            dateFilled={checkList.date}
-            openCalendar={checkList.open}
+            dateFilled={checkList.dateFilled}
+            openCalendar={checkList.openCalendar}
             setOpen={checkList.setOpen}
             onChange={checkList.onChange}
           />
@@ -42,8 +42,17 @@ export default function CheckList() {
           ))}
 
           <View style={styles.content}>
-            <Button title="Salvar" onPress={checkList.saveData}></Button>
-          </View>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.button,
+                  pressed && styles.buttonPressed
+                ]}
+                onPress={checkList.saveData}
+              >
+                <Text style={styles.buttonText}>Salvar</Text>
+              </Pressable>
+            </View>
+
       </ScrollView>
   </SafeAreaView>
 );
@@ -54,20 +63,50 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#25292e',
     paddingHorizontal: 24,
-    paddingTop: 32,
-    
+    paddingTop: 32,    
   },
-  content: {
-    flex:1,
-    gap: 16,
-    padding:6
-  },
+  
   divider: {
     height: 2,
     width: "100%",
     backgroundColor: "rgba(255, 255, 255, 0.2)", // levemente opaca
     borderRadius: 2,
     marginVertical: 12,
+  },
+
+  content: {
+    padding: 16,
+    alignItems: "center",
+  },
+
+  button: {
+    width: "100%",
+    maxWidth: 320,
+    height: 52,
+
+    backgroundColor: "#2563EB", // azul elegante
+    borderRadius: 12,
+
+    alignItems: "center",
+    justifyContent: "center",
+
+    elevation: 3, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+
+  buttonPressed: {
+    opacity: 0.85,
+    transform: [{ scale: 0.98 }],
+  },
+
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+    letterSpacing: 0.5,
   },
 });
 
