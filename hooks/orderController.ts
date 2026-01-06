@@ -12,7 +12,8 @@ export default function useOrderController(){
         async function loadWorkOrders() {
           const workOrderRepository = await WorkOrderRepository.build();
           const data: WorkOrder[] = await workOrderRepository.getAll();
-          setWorkOrders(data);
+          const filteredData = data.filter(item => item.status === "Pendente");
+          setWorkOrders(filteredData);
         }
     
         loadWorkOrders();

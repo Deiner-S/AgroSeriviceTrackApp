@@ -1,6 +1,7 @@
 import ChecklistBox from '@/components/checkListBox';
 import HeaderOS from '@/components/HeaderOS';
 import useCheckListController from '@/hooks/checkListController';
+import { useNavigation } from 'expo-router';
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,6 +9,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function CheckList() {
   
   const checkList = useCheckListController()
+  const navigation = useNavigation<any>();
+
+  async function handleSave() {
+      try {
+        await checkList.saveData();
+        navigation.navigate("Home"); 
+      } catch (error) {
+        console.error("Erro ao salvar formulário", error);
+      }
+    }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }} edges={['left', 'right', 'bottom']}>
@@ -47,7 +58,7 @@ export default function CheckList() {
                   styles.button,
                   pressed && styles.buttonPressed
                 ]}
-                onPress={checkList.saveData}
+                onPress={handleSave}
               >
                 <Text style={styles.buttonText}>Salvar</Text>
               </Pressable>
