@@ -72,4 +72,11 @@ export default class CheckListItemRepository implements Repository<CheckListItem
       status: row.status,
     }));
   }
+
+  async deletAll(): Promise<boolean>{
+    const result = await this.db.runAsync(
+      "DELETE FROM checklist_item;"
+    );
+    return result.changes > 0;
+  }
 }

@@ -7,7 +7,7 @@ export default interface WorkOrder {
   model?: string;
   date_in?: string;
   date_out?: string;
-  status?: string;
+  status: string;
   service?: string;
   insert_date?: string;
 }

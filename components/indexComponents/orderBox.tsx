@@ -6,6 +6,14 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 interface OsCardProps {
   item: WorkOrder
 }
+const STATUS_LABEL: Record<string, string> = {
+  "1": 'Pendente',
+  "2": 'Em andamento',
+  "3": 'Finalizado',
+  "4": 'Cancelado',
+};
+
+
 
 export default function OsCard({ item }: OsCardProps) {
   const navigation = useNavigation<any>();
@@ -23,11 +31,9 @@ export default function OsCard({ item }: OsCardProps) {
           <Text
             style={[
               styles.status,
-              item.status === 'Pendente'
-                ? styles.statusPendente
-                : styles.statusFinalizado,
+              STATUS_STYLE[item.status],
             ]}
-            >{item.status}
+            >{STATUS_LABEL[item.status]}
           </Text>         
         </View>
 
@@ -76,7 +82,17 @@ const styles = StyleSheet.create({
     color: '#e53935',
   },
 
-  statusFinalizado: {
+  statusAndamento: {
+    color: '#e53935',
+  },
+
+  statusEntrega: {
     color: '#43a047',
   },
 });
+
+const STATUS_STYLE: Record<string, any> = {
+  "1": styles.statusPendente,
+  "2": styles.statusAndamento,
+  "3": styles.statusEntrega,
+};

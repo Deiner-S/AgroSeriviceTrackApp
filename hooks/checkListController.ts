@@ -3,6 +3,7 @@ import WorkOrder from '@/models/WorkOrder';
 import CheckListItemReposytory from '@/repository/CheckListItemRepository';
 import CheckListRepository from '@/repository/CheckListRepository';
 import WorkOrderRepository from '@/repository/WorkOrderRepository';
+import { syncCheckListItems } from '@/services/synchronizerService';
 import { useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from "react";
@@ -37,9 +38,11 @@ export default function useCheckListController(){
     })
 
     useEffect(() => {
+      
       let isMounted = true;
-
+      
       async function init() {
+        await syncCheckListItems()
         const workOrderRepository = await WorkOrderRepository.build();
         const checkListRepository = await CheckListRepository.build();
         const checkListItemRepository = await CheckListItemReposytory.build();
@@ -55,7 +58,6 @@ export default function useCheckListController(){
         if (!isMounted) return;
         setChecklistItems(filteredData);
       }
-
       init();
 
       return () => {

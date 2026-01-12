@@ -1,14 +1,41 @@
+import CheckListItem from "@/models/CheckListItem";
 import WorkOrder from "@/models/WorkOrder";
+import CheckListItemRepository from "@/repository/CheckListItemRepository";
+import WorkOrderRepository from "@/repository/WorkOrderRepository";
+
 
 export async function syncPendingOrders() {
-    console.log("entrou ?")
-    const osList = await httpRequest<WorkOrder[]>({
+    const workOrders = await httpRequest<WorkOrder[]>({
         method: 'GET',
-        endpoint: "/api",
+        endpoint: "/work_order_api",
         BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
         })
-    console.log(typeof(osList))
-    console.log("Conteúdo:", osList)
+
+    const workOrderRepository = await WorkOrderRepository.build()
+     for(const workOrder of workOrders){
+        const response = await workOrderRepository.getById(workOrder.operation_code)
+        if(!response){
+            workOrderRepository.save(workOrder)
+            console.log(workOrder)
+        }        
+     }
+}
+
+export async function syncCheckListItems(){
+    const checklist_item_list = await httpRequest<CheckListItem[]>({
+        method: 'GET',
+        endpoint: "/dowload_checklist_items_api",
+        BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
+        })
+    const checkListItemRepository = await CheckListItemRepository.build();
+    await checkListItemRepository.deletAll()
+
+    for(const item of checklist_item_list){
+        console.log(item)
+        await checkListItemRepository.save(item)        
+    }
+    
+    console.log("Conteúdo:", checklist_item_list)
 }
 
 
@@ -42,7 +69,9 @@ export async function httpRequest<T>({method,endpoint,body,headers = {},BASE_URL
 
     
 
-export async function syncAllOrdersNotFinished() {}
+export async function syncAllOrdersNotFinished() {
+    
+}
 
 export async function syncfilledOrders() {}
 

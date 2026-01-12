@@ -41,6 +41,7 @@ async function tableInit(db: any.SQLiteDatabase){
             date_out TEXT,
             status TEXT NOT NULL,
             service TEXT,
+            img BLOB,
             insert_date TEXT
         );
 
@@ -58,12 +59,13 @@ async function tableInit(db: any.SQLiteDatabase){
 
         
         INSERT INTO work_order (operation_code, client, symptoms, status) VALUES
-        ('1001', 'João da Silva', 'Motor não liga', 'Pendente'),
-        ('1002', 'Maria Oliveira', 'Barulho estranho ao frear', 'Pendente'),
-        ('1003', 'Carlos Santos', 'Luz de injeção acesa', 'Pendente'),
-        ('1004', 'Ana Pereira', 'Vibração excessiva em marcha lenta', 'Pendente'),
-        ('1005', 'Pedro Almeida', 'Veículo perde força em subidas', 'Pendente');
+        ('1001', 'João da Silva', 'Motor não liga', '1'),
+        ('1002', 'Maria Oliveira', 'Barulho estranho ao frear', '1'),
+        ('1003', 'Carlos Santos', 'Luz de injeção acesa', '1'),
+        ('1004', 'Ana Pereira', 'Vibração excessiva em marcha lenta', '1'),
+        ('1005', 'Pedro Almeida', 'Veículo perde força em subidas', '1');
 
+        /*
         INSERT INTO checklist_item (id, name, status) VALUES 
         (1, 'LIMPEZA', 1),
         (2, 'PNEU F/D', 0),
@@ -106,7 +108,7 @@ async function tableInit(db: any.SQLiteDatabase){
         (39, 'SETA T/D', 0),
         (40, 'SETA T/E', 0),
         (41, 'PISCA ALERTA', 0);
-        
+        */
             `
         );
 }
