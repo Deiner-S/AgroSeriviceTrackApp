@@ -57,7 +57,7 @@ async function tableInit(db: any.SQLiteDatabase){
             FOREIGN KEY (checklist_item_fk) REFERENCES checklist_item(id)
         );
 
-        
+        /*
         INSERT INTO work_order (operation_code, client, symptoms, status) VALUES
         ('1001', 'João da Silva', 'Motor não liga', '1'),
         ('1002', 'Maria Oliveira', 'Barulho estranho ao frear', '1'),
@@ -65,7 +65,7 @@ async function tableInit(db: any.SQLiteDatabase){
         ('1004', 'Ana Pereira', 'Vibração excessiva em marcha lenta', '1'),
         ('1005', 'Pedro Almeida', 'Veículo perde força em subidas', '1');
 
-        /*
+        
         INSERT INTO checklist_item (id, name, status) VALUES 
         (1, 'LIMPEZA', 1),
         (2, 'PNEU F/D', 0),
