@@ -1,42 +1,107 @@
+import NetInfo from '@react-native-community/netinfo';
 import CheckListItem from "@/models/CheckListItem";
 import WorkOrder from "@/models/WorkOrder";
 import CheckListItemRepository from "@/repository/CheckListItemRepository";
 import WorkOrderRepository from "@/repository/WorkOrderRepository";
+import CheckListRepository from '@/repository/CheckListRepository';
 
 
-export async function syncPendingOrders() {
-    const workOrders = await httpRequest<WorkOrder[]>({
-        method: 'GET',
-        endpoint: "/work_order_api",
-        BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
-        })
+// tasks
+// - polish exception handling
+// - evaluate dividing the file into more specialized files
+// - Add a retry system to requests.
 
-    const workOrderRepository = await WorkOrderRepository.build()
-     for(const workOrder of workOrders){
-        const response = await workOrderRepository.getById(workOrder.operation_code)
-        if(!response){
-            workOrderRepository.save(workOrder)
-            console.log(workOrder)
-        }        
-     }
+
+export async function receivePendingOrders() {
+    if(await hasWebAccess()){
+        const workOrders = await httpRequest<WorkOrder[]>({
+            method: 'GET',
+            endpoint: "/send_work_orders_api",
+            BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
+            })
+        if(!workOrders){
+            console.log("throw Error")
+        }
+        const workOrderRepository = await WorkOrderRepository.build()
+        for(const workOrder of workOrders){
+            const response = await workOrderRepository.getById(workOrder.operation_code)
+            if(!response){
+                workOrderRepository.save(workOrder)
+                console.log(workOrder)
+            }        
+        }
+    }
 }
 
-export async function syncCheckListItems(){
-    const checklist_item_list = await httpRequest<CheckListItem[]>({
-        method: 'GET',
-        endpoint: "/dowload_checklist_items_api",
-        BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
-        })
-    const checkListItemRepository = await CheckListItemRepository.build();
-    await checkListItemRepository.deletAll()
+export async function receiveCheckListItems(){
+    if(await hasWebAccess()){
+        const checklistItemList = await httpRequest<CheckListItem[]>({
+            method: 'GET',
+            endpoint: "/send_checklist_items_api",
+            BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
+            })
+        if(!checklistItemList){
+            console.log("throw Error")
+        }
+        
+        const checkListItemRepository = await CheckListItemRepository.build();
+        await checkListItemRepository.deletAll()
 
-    for(const item of checklist_item_list){
-        console.log(item)
-        await checkListItemRepository.save(item)        
+        for(const item of checklistItemList){
+            console.log(item)
+            await checkListItemRepository.save(item)        
+        }
+        
+        console.log("Conteúdo:", checklistItemList)
     }
     
-    console.log("Conteúdo:", checklist_item_list)
 }
+
+export async function sendOrdersChanges() {
+    if(await hasWebAccess()){    
+        const workOrderRepository = await WorkOrderRepository.build()
+        const workOrders = await workOrderRepository.getAll()
+        const workOrdersFiltered = workOrders.filter(item => item.statusSync !== 1)
+
+        const response = await httpRequest<WorkOrder[]>({
+            method: 'POST',
+            endpoint: "/receive_work_orders_api",
+            BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador",
+            body: workOrdersFiltered
+        })
+
+        if(response){
+            for(const workOrder of workOrdersFiltered){
+                workOrder.statusSync = 1
+                workOrderRepository.update(workOrder)
+            }
+        }else{
+            console.log("throw Error")
+        }
+
+        
+    }
+}
+
+export async function sendCheckListsFilleds(){
+    if(await hasWebAccess()){ 
+        const checkListRepository = await CheckListRepository.build()
+        const checkLists = await checkListRepository.getAll()
+        const checkListsFiltered = checkLists.filter(item => item.statusSync !== 1)
+
+
+
+    }
+}
+
+async function hasWebAccess(): Promise<boolean> {
+  const state = await NetInfo.fetch();
+
+  return Boolean(
+    state.isConnected && state.isInternetReachable
+  );
+}
+
 
 
 // definindo valores possíveis para 
@@ -51,7 +116,7 @@ interface RequestOptions {
   BASE_URL: String
 }
 
-export async function httpRequest<T>({method,endpoint,body,headers = {},BASE_URL}: RequestOptions): Promise <T>{
+async function httpRequest<T>({method,endpoint,body,headers = {},BASE_URL}: RequestOptions): Promise <T>{
 
     const response = await fetch(`${BASE_URL}${endpoint}`, {      
         method,
@@ -69,9 +134,4 @@ export async function httpRequest<T>({method,endpoint,body,headers = {},BASE_URL
 
     
 
-export async function syncAllOrdersNotFinished() {
-    
-}
-
-export async function syncfilledOrders() {}
 

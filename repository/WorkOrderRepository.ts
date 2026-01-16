@@ -78,6 +78,7 @@ export default class WorkOrderRepository implements Repository<WorkOrder, number
           date_in = ?,
           date_out = ?,
           status = ?,
+          status_sync = ?,
           service = ?
         WHERE operation_code = ?
         `,
@@ -90,6 +91,7 @@ export default class WorkOrderRepository implements Repository<WorkOrder, number
           entity.date_in ?? null,
           entity.date_out ?? null,
           entity.status ?? null,
+          entity.statusSync,
           entity.service ?? null,
           entity.operation_code
         ]

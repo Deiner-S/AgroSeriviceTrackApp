@@ -26,7 +26,7 @@ async function tableInit(db: any.SQLiteDatabase){
         CREATE TABLE IF NOT EXISTS checklist_item (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            status INTEGER NOT NULL
+            status INTEGER NOT NULL,            
         );
 
         
@@ -40,6 +40,7 @@ async function tableInit(db: any.SQLiteDatabase){
             date_in TEXT,
             date_out TEXT,
             status TEXT NOT NULL,
+            status_sync INTEGER NOT NULL DEFAULT 1,
             service TEXT,
             img BLOB,
             insert_date TEXT
@@ -51,6 +52,7 @@ async function tableInit(db: any.SQLiteDatabase){
             checklist_item_fk INTEGER NOT NULL,
             work_order_fk TEXT NOT NULL,
             status TEXT NOT NULL,
+            status_sync INTEGER NOT NULL DEFAULT 0
             img BLOB,
             
             FOREIGN KEY (work_order_fk) REFERENCES work_order(operation_code), 

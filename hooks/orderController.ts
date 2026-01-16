@@ -1,6 +1,6 @@
 import WorkOrder from "@/models/WorkOrder";
 import WorkOrderRepository from "@/repository/WorkOrderRepository";
-import { syncPendingOrders } from "@/services/synchronizerService";
+import { receivePendingOrders } from "@/services/synchronizerService";
 import { useEffect, useState } from "react";
 
 
@@ -12,7 +12,7 @@ export default function useOrderController(){
       useEffect(() => {
        
         async function loadWorkOrders() {
-          await syncPendingOrders();
+          await receivePendingOrders();
           const workOrderRepository = await WorkOrderRepository.build();
           const data: WorkOrder[] = await workOrderRepository.getAll();
           const filteredData = data.filter(item => item.status === "1");

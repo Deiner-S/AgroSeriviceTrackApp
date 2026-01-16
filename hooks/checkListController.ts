@@ -3,7 +3,7 @@ import WorkOrder from '@/models/WorkOrder';
 import CheckListItemReposytory from '@/repository/CheckListItemRepository';
 import CheckListRepository from '@/repository/CheckListRepository';
 import WorkOrderRepository from '@/repository/WorkOrderRepository';
-import { syncCheckListItems } from '@/services/synchronizerService';
+import { receiveCheckListItems } from '@/services/synchronizerService';
 import { useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from "react";
@@ -42,7 +42,7 @@ export default function useCheckListController(){
       let isMounted = true;
       
       async function init() {
-        await syncCheckListItems()
+        await receiveCheckListItems()
         const workOrderRepository = await WorkOrderRepository.build();
         const checkListRepository = await CheckListRepository.build();
         const checkListItemRepository = await CheckListItemReposytory.build();
@@ -122,7 +122,8 @@ export default function useCheckListController(){
           model:modelo,
           date_in:dateFilled.toISOString(),
           date_out: undefined,
-          status:"Andamento",
+          status:"2",
+          statusSync: 0,
           service: undefined,
 
       })
