@@ -1,4 +1,6 @@
+import { clearTokenStorange } from '@/storange/authStorange';
 import NetInfo from '@react-native-community/netinfo';
+import { refreshToken } from './authService';
 
 
 // definindo valores possíveis para 
@@ -14,14 +16,24 @@ interface RequestOptions {
 }
 
 
-export async function httpRequest<T>({method,endpoint,body,headers = {},BASE_URL}: RequestOptions): Promise <T>{
+export async function httpRequest<T>(options: RequestOptions, retried = false): Promise <T>{
     
-    const response = await fetch(`${BASE_URL}${endpoint}`, {      
-        method,
-        headers: {'Content-Type': 'application/json',...headers},
-        body: body ? JSON.stringify(body) : undefined,
+    const response = await fetch(`${options.BASE_URL}${options.endpoint}`, {      
+        method: options.method,
+        headers: {'Content-Type': 'application/json',...options.headers},
+        body: options.body ? JSON.stringify(options.body) : undefined,
     });
     
+    if (response.status === 401 && !retried) {
+      try {
+        await refreshToken()
+        return httpRequest<T>(options, true)
+      } catch {
+        await clearTokenStorange()
+        throw new Error('SESSION_EXPIRED')
+      }
+    }
+
     if (!response.ok) {
         const errorBody = await response.text();
         throw new Error(`HTTP ${response.status} - ${errorBody || response.statusText}`);

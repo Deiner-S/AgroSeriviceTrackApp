@@ -1,20 +1,21 @@
 import ChecklistBox from '@/components/checklistComponents/checkListBox';
 import HeaderOS from '@/components/checklistComponents/HeaderOS';
-import useCheckListController from '@/hooks/checkListController';
+import useCheckListHook from '@/hooks/checkListHook';
 import { useNavigation } from 'expo-router';
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Routes } from '../routes';
 
 export default function CheckList() {
   
-  const checkList = useCheckListController()
+  const checkList = useCheckListHook()
   const navigation = useNavigation<any>();
 
   async function handleSave() {
       try {
         await checkList.saveData();
-        navigation.navigate("Home"); 
+        navigation.navigate(Routes.HOME); 
       } catch (error) {
         console.error("Erro ao salvar formulário", error);
       }

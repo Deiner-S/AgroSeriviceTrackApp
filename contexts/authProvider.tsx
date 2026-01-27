@@ -1,60 +1,39 @@
-import { httpRequest } from '@/services/networkService'
-import { clearToken, saveToken as saveTokenStorange } from '@/storange/authStorange'
+import { haveToken, requestToken } from '@/services/authService'
+import { clearTokenStorange } from '@/storange/authStorange'
 import { useEffect, useState } from 'react'
 import { AuthContext } from './authContext'
 
-type Props = {
+type props={
   children: React.ReactNode
 }
 
-type LoginResponse = {
-  access: string
-  refresh: string
-}
-
-
-
-
-export function AuthProvider({ children }: Props) {
+export function AuthProvider({children} : props) {
   const [loged, setloged] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function bootstrap() {
       setLoading(false)
+      const containsToken = await haveToken()
+      setloged(containsToken)
     }
 
     bootstrap()
   }, [])
 
   async function login(username: string, password: string){
-    console.log("Try request")
-    const response = await httpRequest<LoginResponse>({
-            method: 'POST',
-            endpoint: '/api/token/',
-            BASE_URL: "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador",
-            body: {username,password}
-    })
-    
-    
-    if (response.access && response.refresh) {
-      console.log('Token de acesso:', response.access)
-      await saveTokenStorange({
-        access: response.access,
-        refresh: response.refresh
-      })
+    try{
+      requestToken({username,password})
       setloged(true)
-      return true
-      
-    } else {
-      console.log('Login inválido')
-      return false
-    } 
+    }catch(err){
+      console.log(`LOG ERROR ${err}`)
+    }
+
   }
 
   function logout() {
-    clearToken()
-    return true
+    clearTokenStorange()
+    setloged(false)
   }
 
   return (

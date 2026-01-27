@@ -17,7 +17,7 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const { login } = useAuth()
+  const { login,loged } = useAuth()
 
   async function handleLogin() {
     if (!user || !password) {
@@ -25,13 +25,13 @@ export default function Login() {
       return
     }
 
-    const ok = await login(user, password)
+    await login(user, password)
 
-    if (ok) {
-      router.replace('/(stack)/homeScreen')
+    if (loged) {
+        router.replace('/(stack)/homeScreen')
     } else {
-      console.log('login inválido')
-    }
+        console.log('login inválido')
+      }
   }
 
 

@@ -1,3 +1,4 @@
+import { Routes } from "@/app/routes";
 import WorkOrder from "@/models/WorkOrder";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
@@ -19,7 +20,7 @@ export default function OsCard({ item }: OsCardProps) {
   const navigation = useNavigation<any>();
   return (
       <Pressable    
-        onPress={() => navigation.navigate('Check list', { workOrder: item})}
+        onPress={() => navigation.navigate(Routes.CHECKLIST, { workOrder: item})}
         style={({ pressed }) => [
           styles.pressable,
           pressed && styles.pressablePressed,

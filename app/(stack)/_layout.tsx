@@ -3,6 +3,9 @@ import { useSync } from '@/contexts/syncContext'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Redirect, Stack } from 'expo-router'
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
+import { Routes } from '../routes'
+
+
 
 export default function StackLayout() {
   console.log('StackLayout Renderizou')
@@ -19,22 +22,23 @@ export default function StackLayout() {
   }
 
   if (!loged) {
-    return <Redirect href="/login" />
+    return <Redirect href={Routes.LOGIN} />
   }
 
   return (
     <Stack>
       <Stack.Screen
-        name="HomeScreen"
+        name={Routes.HOME}
         options={{
-          headerRight: () => (
+          title:"Home",
+          headerRight: () => (            
             <TouchableOpacity onPress={runSync}>
               <MaterialIcons name="sync" size={24} color="#000" />
-            </TouchableOpacity>
+            </TouchableOpacity>            
           ),
         }}
       />
-      <Stack.Screen name="Checklist" />
+      <Stack.Screen name={Routes.CHECKLIST} options={{title:"Check list"}}/>
     </Stack>
   )
 }

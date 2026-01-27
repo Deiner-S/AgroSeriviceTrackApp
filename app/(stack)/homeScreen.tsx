@@ -1,13 +1,13 @@
 import OsCard from '@/components/indexComponents/orderBox';
 import { useSync } from '@/contexts/syncContext';
-import useHomeController from '@/hooks/homeController';
+import useHomeHook from '@/hooks/homeHook';
 import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
  
-  const {workOrders,reload} = useHomeController()
+  const {workOrders,reload} = useHomeHook()
   const { lastSyncAt } = useSync();
     useEffect(() => {
       if (lastSyncAt) {

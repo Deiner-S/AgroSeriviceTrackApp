@@ -13,7 +13,7 @@ interface ChecklistStateItem {
   photoUri: string | null;
 }
 
-export default function useCheckListController(){
+export default function useCheckListHook(){
     
 
     const [dateFilled, setDateFilled] = useState(new Date());

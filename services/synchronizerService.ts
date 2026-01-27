@@ -4,6 +4,7 @@ import CheckListItemRepository from "@/repository/CheckListItemRepository";
 import CheckListRepository from '@/repository/CheckListRepository';
 import WorkOrderRepository from "@/repository/WorkOrderRepository";
 import { hasWebAccess, httpRequest } from "@/services/networkService";
+import {getTokenStorange } from "@/storange/authStorange";
 
 
 // tasks
@@ -12,21 +13,29 @@ import { hasWebAccess, httpRequest } from "@/services/networkService";
 // - Add a retry system to requests.
 
 export default class Synchronizer{
-    private baseUrl = "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
+    private baseUrl: string
     private authToken: string
     
-    private constructor(authToken:string) {
-        this.authToken = authToken
+    private constructor() {
+        this.baseUrl = "https://ringless-equivalently-alijah.ngrok-free.dev/gerenciador"
+        this.authToken = ""
     }
 
-    static async build(authToken:string): Promise<Synchronizer> {
-        const instance = new Synchronizer(authToken);
+    static async build(): Promise<Synchronizer> {
+        const instance = new Synchronizer();
         return instance;
     }
     public async run(): Promise<void>{
-        if(await hasWebAccess()){
-            console.log("sinc1")
+        try{        
+            if(!await hasWebAccess()) throw Error("MISSING_WEB_ACCESS")
+                
+            console.log("getToken")
+            const authTokens = await getTokenStorange()
+            if(authTokens?.access==null) throw Error("AUTH_TOKEN_MISSING") 
+            this.authToken = authTokens.access
             console.log(this.authToken)
+            
+            console.log("sinc1")
             await this.receivePendingOrders("/send_work_orders_api/")
             console.log("sinc2")
             await this.receiveCheckListItems("/send_checklist_items_api/")
@@ -34,9 +43,11 @@ export default class Synchronizer{
             await this.sendWorkOrders("/receive_work_orders_api/")
             console.log("sinc4")
             await this.sendCheckListsFilleds("/receive_checklist_api/")
-        }else{
-            console.log("throw Error no network")
+            
+        }catch(err){
+            console.log(`log Error: ${err}`)
         }
+        
     }
 
     private async receivePendingOrders(endPoint:string) {        

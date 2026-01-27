@@ -7,15 +7,15 @@ export type AuthTokens = {
 }
 const TOKEN_KEY = 'auth_token'
 
-export async function getToken(): Promise<AuthTokens | null> {
+export async function getTokenStorange(): Promise<AuthTokens | null> {
   const stored = await SecureStore.getItemAsync(TOKEN_KEY)
   return stored ? (JSON.parse(stored) as AuthTokens) : null
 }
 
-export async function saveToken(authTokens: AuthTokens): Promise<void> {
+export async function saveTokenStorange(authTokens: AuthTokens): Promise<void> {
   await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(authTokens))
 }
 
-export async function clearToken(): Promise<void> {
+export async function clearTokenStorange(): Promise<void> {
   await SecureStore.deleteItemAsync(TOKEN_KEY)
 }
