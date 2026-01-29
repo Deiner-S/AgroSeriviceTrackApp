@@ -1,3 +1,4 @@
+import CheckList from '@/models/CheckList';
 import CheckListItem from '@/models/CheckListItem';
 import WorkOrder from '@/models/WorkOrder';
 import CheckListItemReposytory from '@/repository/CheckListItemRepository';
@@ -6,6 +7,8 @@ import WorkOrderRepository from '@/repository/WorkOrderRepository';
 import { useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from "react";
+
+import { v4 as uuidv4 } from 'uuid';
 
 interface ChecklistStateItem {
   id: number;
@@ -142,18 +145,17 @@ export default function useCheckListHook(){
       })
       for (const checkList of checklistState){
         if(checkList.selected && checkList.photoUri){
-          checkListRepositor?.save({
+          const novo_checklist: CheckList = {            
+            id:uuidv4(),
             checklist_item_fk:checkList.id,
             work_order_fk: workOrder.operation_code,
             status_sync: 0,
             status: checkList.selected,
-            img: await readImageAsUint8Array(checkList.photoUri),            
-          })
+            img: await readImageAsUint8Array(checkList.photoUri),          
+          }
+          checkListRepositor?.save(novo_checklist)
         }
       }
-      
-      const data = await workOrderRepository?.getAll();
-      console.log(data)
       console.log("Salvo")
     }
 

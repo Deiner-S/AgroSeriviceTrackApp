@@ -1,5 +1,5 @@
 export default interface CheckList{
-    id?: number
+    id: string,
     checklist_item_fk:number
     work_order_fk:number
     status:string

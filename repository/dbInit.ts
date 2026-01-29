@@ -24,14 +24,14 @@ async function tableInit(db: any.SQLiteDatabase){
         DROP TABLE IF EXISTS checklist;
         
         CREATE TABLE IF NOT EXISTS checklist_item (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
             status INTEGER NOT NULL            
         );
 
         
         CREATE TABLE IF NOT EXISTS work_order (
-            operation_code INTEGER PRIMARY KEY NOT NULL,
+            operation_code TEXT PRIMARY KEY NOT NULL,
             client TEXT NOT NULL,
             symptoms TEXT NOT NULL,
             chassi TEXT UNIQUE,
@@ -48,7 +48,7 @@ async function tableInit(db: any.SQLiteDatabase){
 
         
         CREATE TABLE IF NOT EXISTS checklist (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id TEXT PRIMARY KEY,
             checklist_item_fk INTEGER NOT NULL,
             work_order_fk TEXT NOT NULL,
             status TEXT NOT NULL,

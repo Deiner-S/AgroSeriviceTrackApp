@@ -17,8 +17,8 @@ export default class CheckListItemRepository implements Repository<CheckListItem
   // CREATE
   async save(entity: CheckListItem): Promise<boolean> {
     const result = await this.db.runAsync(
-      "INSERT INTO checklist_item (name, status) VALUES (?, ?)",
-      [entity.name, entity.status]
+      "INSERT INTO checklist_item (id,name, status) VALUES (?, ?, ?)",
+      [entity.id, entity.name, entity.status]
     );
 
     return result.changes > 0;

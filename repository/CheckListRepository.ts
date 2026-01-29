@@ -16,17 +16,19 @@ export default class CheckListRepository implements Repository<CheckList, number
   async save(entity: CheckList): Promise<boolean> {
     try {
       const query = `
-        INSERT INTO checklist 
-        (checklist_item_fk, 
+        INSERT INTO checklist
+        (id,
+        checklist_item_fk, 
         work_order_fk, 
         status, 
         status_sync, 
         img)
 
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
       `;
 
       await this.db.runAsync(query, [
+        entity.id,
         entity.checklist_item_fk,
         entity.work_order_fk,
         entity.status,
