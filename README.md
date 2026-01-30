@@ -1,51 +1,74 @@
-# Welcome to your Expo app 👋
+# Agro Service Track
+🌾 Offline Field Service Management System
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+🚧 In development
 
-## Get started
+Offline-first project created from the observation of a real pain point in the agricultural equipment maintenance sector.
+In field operations, the lack of connectivity makes it difficult to digitize processes such as equipment intake,
+maintenance tracking, and delivery checklists, generating legal insecurity and conflicts between involved parties.
 
-1. Install dependencies
+Agro Service Track proposes a structured digital flow for data collection, persistence, and synchronization,
+increasing process reliability even in environments without internet access.
 
-   ```bash
-   npm install
-   ```
+## 🖥️ System Overview
 
-2. Start the app
+Agro Service Track is composed of two main applications:
 
-   ```bash
-   npx expo start
-   ```
+- **Web Application**  
+  Used by administrative staff to manage customers, create work orders,
+  register equipment data, and monitor service progress.
 
-In the output, you'll find options to open the app in a
+- **Mobile Application**  
+  Used by field technicians to execute checklists, perform maintenance tasks,
+  collect signatures, and synchronize data in offline-first environments.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🌐 Web Application Access
+🔗 [Web Application Repository](https://github.com/Deiner-S/AgroSeriviceTrackWeb.git)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 📌 Project Stages
 
-## Get a fresh project
+### 🧱 Stage 1 – Base Structure (completed)
+- System requirements gathering
+- Data flow mapping and logical data modeling
+- Definition of tools and technologies
+- Evaluation and validation of chosen tools
+- Definition of the overall system architecture
+- Core backend structuring
+- Authentication flow configuration
+- Mobile application organization into responsibility layers
+- Commit standardization and repository organization
 
-When you're ready, run:
+### 🔄 Stage 2 – Offline Flow and Synchronization (in progress)
+- Local data persistence on the mobile application
+- Checklist execution in offline environments
+- Data synchronization with the server when connectivity is available
+- Work order status management
 
-```bash
-npm run reset-project
-```
+### 🛠️ Stage 3 – Service Execution and Delivery (planned)
+- Equipment maintenance workflow
+- Service execution report
+- Delivery checklist with final validation
+- Work order finalization
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 🧪 Stage 4 – Stability and Reliability (planned)
+- Data validation
+- Exception handling
+- Basic logging and audit trail
+- Performance improvements
 
-## Learn more
+### 📦 Stage 5 – Documentation and Packaging (planned)
+- Technical documentation
+- Docker containerization
+- Project preparation for controlled deployment
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🧩 System Modules
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Equipment intake and delivery checklist (core)
+- Post-service tracking
+- Business analysis and performance (planned)
+- Financial management (planned)
+- Customer process tracking (planned)
 
-## Join the community
+## 🚀 Possible Evolution Horizons
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-"# app_AT" 
+- Project structuring for a future SaaS model
