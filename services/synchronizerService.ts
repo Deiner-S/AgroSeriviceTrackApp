@@ -87,7 +87,7 @@ export default class Synchronizer{
         }
         
         const checkListItemRepository = await CheckListItemRepository.build();
-        await checkListItemRepository.deletAll()
+        await checkListItemRepository.deleteAll()
         for(const item of checklistItemList){
             await checkListItemRepository.save(item)        
         }           

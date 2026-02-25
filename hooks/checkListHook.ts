@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 interface ChecklistStateItem {
-  id: number;
+  id: string;
   selected: string | null;
   photoUri: string | null;
 }
@@ -23,7 +23,7 @@ export default function useCheckListHook(){
     const [dateFilled, setDateFilled] = useState(new Date());
     const [openCalendar, setOpenCalendar] = useState(false);
     const [chassi, setChassi] = useState("");
-    const [orimento, setOrimento] = useState("");
+    const [horimetro, setHorimetro] = useState<number>(0);
     const [modelo, setModelo] = useState("");
 
     const route = useRoute();
@@ -80,7 +80,7 @@ export default function useCheckListHook(){
 
 
     
-    function setItemSelected(id: number, value: string | null) {
+    function setItemSelected(id: string, value: string | null) {
       setChecklistState(prev =>
         prev.map(item =>
           item.id === id ? { ...item, selected: value } : item
@@ -88,7 +88,7 @@ export default function useCheckListHook(){
       );
     }
 
-    function setItemPhotoUri(id: number, uri: string) {
+    function setItemPhotoUri(id: string, uri: string) {
       setChecklistState(prev =>
         prev.map(item =>
           item.id === id ? { ...item, photoUri: uri } : item
@@ -133,7 +133,7 @@ export default function useCheckListHook(){
           client:workOrder.client,
           symptoms:workOrder.symptoms,
           chassi:chassi,
-          orimento:orimento,
+          horimetro:horimetro,
           model:modelo,
           date_in:dateFilled.toISOString(),
           date_out: undefined,
@@ -167,7 +167,7 @@ export default function useCheckListHook(){
     if (selectedDate) setDateFilled(selectedDate);
   }
 
-  const takePhoto = async (itemID:number) => {
+  const takePhoto = async (itemID:string) => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
     
     if (!permission.granted) return alert("Permita acesso à câmera.");
@@ -181,7 +181,7 @@ export default function useCheckListHook(){
 
   return{
     dateFilled, setDate: setDateFilled,openCalendar, setOpen: setOpenCalendar,
-    chassi, setChassi,orimento, setOrimento,
+    chassi, setChassi,horimetro,setHorimetro,
     modelo, setModelo, checklistState, setChecklistState,
     setItemSelected, setItemPhotoUri, workOrder,
     saveData,onChange,takePhoto, checklistItems,setSignature,setOpenSignature,openSignature 

@@ -45,7 +45,7 @@ export default function HeaderOS({
 
         <TextInput
           style={styles.input}
-          placeholder="Orimento"
+          placeholder="Horimetro"
           placeholderTextColor="#8e8e93"
           value={orimento}
           onChangeText={setOrimento}
