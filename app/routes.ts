@@ -1,6 +1,7 @@
 export const Routes = {
   HOME: 'homeScreen',
   CHECKLIST: 'checklistScreen',
+  MAINTENANCE: 'maintenanceScreen',
   LOGIN: "/login"
 } as const
 

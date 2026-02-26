@@ -8,19 +8,20 @@ interface OsCardProps {
   item: WorkOrder
 }
 const STATUS_LABEL: Record<string, string> = {
-  "1": 'Pendente',
-  "2": 'Em andamento',
-  "3": 'Finalizado',
-  "4": 'Cancelado',
+  "1": "Pendente",
+  "2": "Em andamento",
+  "3": "Entrega",
+  "4": "Finalizada",
 };
 
 
 
 export default function OsCard({ item }: OsCardProps) {
   const navigation = useNavigation<any>();
+  const targetRoute = item.status === "1" ? Routes.CHECKLIST : item.status === "2" ? Routes.MAINTENANCE : Routes.CHECKLIST;
   return (
-      <Pressable    
-        onPress={() => navigation.navigate(Routes.CHECKLIST, { workOrder: item})}
+      <Pressable
+        onPress={() => navigation.navigate(targetRoute, { workOrder: item })}
         style={({ pressed }) => [
           styles.pressable,
           pressed && styles.pressablePressed,
@@ -32,9 +33,10 @@ export default function OsCard({ item }: OsCardProps) {
           <Text
             style={[
               styles.status,
-              STATUS_STYLE[item.status],
+              STATUS_STYLE[String(item.status)] ?? styles.statusFinalizada,
             ]}
-            >{STATUS_LABEL[item.status]}
+          >
+            {STATUS_LABEL[String(item.status)] ?? item.status}
           </Text>         
         </View>
 
@@ -80,20 +82,22 @@ const styles = StyleSheet.create({
   },
 
   statusPendente: {
-    color: '#e53935',
+    color: "#e53935",
   },
-
   statusAndamento: {
-    color: '#e53935',
+    color: "#f9a825",
   },
-
   statusEntrega: {
-    color: '#43a047',
+    color: "#2196f3",
+  },
+  statusFinalizada: {
+    color: "#9e9e9e",
   },
 });
 
-const STATUS_STYLE: Record<string, any> = {
+const STATUS_STYLE: Record<string, object> = {
   "1": styles.statusPendente,
   "2": styles.statusAndamento,
   "3": styles.statusEntrega,
+  "4": styles.statusFinalizada,
 };
