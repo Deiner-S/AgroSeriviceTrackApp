@@ -184,7 +184,8 @@ export default function useCheckListHook(){
     chassi, setChassi,horimetro,setHorimetro,
     modelo, setModelo, checklistState, setChecklistState,
     setItemSelected, setItemPhotoUri, workOrder,
-    saveData,onChange,takePhoto, checklistItems,setSignature,setOpenSignature,openSignature 
+    saveData,onChange,takePhoto, checklistItems,
+    signature, setSignature,setOpenSignature,openSignature 
   }
 
 

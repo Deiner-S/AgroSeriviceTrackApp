@@ -41,7 +41,7 @@ export default function ChecklistBox({
           <Text>Foto</Text>
         </Pressable>
 
-        {photoUri && (
+        {photoUri && selected != null && (
           <Ionicons
             style={{ margin: 5 }}
             name="checkmark-circle"

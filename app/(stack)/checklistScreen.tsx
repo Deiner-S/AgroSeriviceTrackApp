@@ -2,6 +2,7 @@ import ChecklistBox from '@/components/checklistComponents/checkListBox';
 import HeaderOS from '@/components/checklistComponents/HeaderOS';
 import Signature from '@/components/checklistComponents/signature';
 import useCheckListHook from '@/hooks/checkListHook';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -12,6 +13,7 @@ export default function CheckList() {
   
   const checkList = useCheckListHook()
   const navigation = useNavigation<any>();
+  const hasSignature = !!checkList.signature;
 
   async function handleSave() {
       try {
@@ -31,8 +33,8 @@ export default function CheckList() {
             symptoms={checkList.workOrder.symptoms}
             chassi={checkList.chassi}
             setChassi={checkList.setChassi}
-            orimento={checkList.orimento}
-            setOrimento={checkList.setOrimento}
+            orimento={checkList.horimetro}
+            setOrimento={(value) => checkList.setHorimetro(Number(value) || 0)}
             modelo={checkList.modelo}
             setModelo={checkList.setModelo}
             dateFilled={checkList.dateFilled}
@@ -54,11 +56,30 @@ export default function CheckList() {
             />
           ))}
           <View style={styles.content}>
-            <Pressable style={({ pressed }) => [
-                    styles.signatureButton,
-                    pressed && styles.signatureButtonPressed
-                  ]} onPress={() => checkList.setOpenSignature(true)}>
-              <Text style={styles.buttonText}>Assinar</Text>
+            <Pressable
+              disabled={hasSignature}
+              style={({ pressed }) => [
+                styles.signatureButton,
+                hasSignature && styles.signatureButtonDone,
+                !hasSignature && pressed && styles.signatureButtonPressed,
+              ]}
+              onPress={() => {
+                if (!hasSignature) checkList.setOpenSignature(true);
+              }}
+            >
+              <View style={styles.signatureContent}>
+                {hasSignature && (
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={22}
+                    color="#14532d"
+                    style={{ marginRight: 8 }}
+                  />
+                )}
+                <Text style={styles.buttonText}>
+                  {hasSignature ? 'Assinado' : 'Assinar'}
+                </Text>
+              </View>
             </Pressable>
           </View>
           <Modal visible={checkList.openSignature} animationType="slide">
@@ -126,9 +147,19 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
 
+  signatureButtonDone: {
+    backgroundColor: "#4ade80",
+  },
+
   signatureButtonPressed: {
     opacity: 0.85,
     transform: [{ scale: 0.98 }],
+  },
+
+  signatureContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   submitButton: {

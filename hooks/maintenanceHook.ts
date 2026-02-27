@@ -17,6 +17,7 @@ export default function useMaintenanceHook(workOrder: WorkOrder) {
       const updated: WorkOrder = {
         ...workOrder,
         service,
+        status: "3",
         status_sync: 0,
       };
       await repo.update(updated);

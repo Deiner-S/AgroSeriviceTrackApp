@@ -4,11 +4,11 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 interface CabecalhoOSProps {
   client: string;
-  operation_code: number;
+  operation_code: string;
   symptoms: string;
   chassi: string;
   setChassi: (value: string) => void;
-  orimento: string;
+  orimento: number;
   setOrimento: (value: string) => void;
   modelo: string;
   setModelo: (value: string) => void;
