@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     maxWidth: 320,
     height: 52,
 
-    backgroundColor: "#144B2E", // azul elegante
+    backgroundColor: "#FDE68A", // amarelo pastel
     borderRadius: 12,
 
     alignItems: "center",

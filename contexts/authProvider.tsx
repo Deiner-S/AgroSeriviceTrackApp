@@ -23,7 +23,7 @@ export function AuthProvider({children} : props) {
 
   async function login(username: string, password: string){
     try{
-      requestToken({username,password})
+      await requestToken({username,password})
       setloged(true)
     }catch(err){
       console.log(`LOG ERROR ${err}`)
